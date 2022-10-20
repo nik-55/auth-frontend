@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import validator from 'validator';
+import { useAuth } from '../context/AuthContext';
 
 const Signup = () => {
     const emailRef = useRef()
@@ -8,6 +9,8 @@ const Signup = () => {
     const cpasswordRef = useRef()
     const usernameRef = useRef()
     const [error, setError] = useState("")
+
+    const { signup: register } = useAuth()
 
     const handleSignup = (e) => {
         e.preventDefault();
@@ -18,9 +21,10 @@ const Signup = () => {
         try {
             setError("")
             if (!validator.isEmail(email)) throw new Error("Enter Valid Email")
-            if (!validator.isLength(username, { min: 6, max: 20 })) throw new Error("Username should contain 6 to 20 characters")
+            if (!validator.isLength(username, { min: 5, max: 20 })) throw new Error("Username should contain 5 to 20 characters")
             if (!validator.isLength(pwd, { min: 6, max: 20 })) throw new Error("Password should contain 6 to 20 characters")
             if (pwd !== cpwd) throw new Error("Password and Confirm Password should be same")
+            register(email, username, pwd)
         } catch (err) {
             setError(err?.message || "Error Occured")
         }
