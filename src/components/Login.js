@@ -7,10 +7,11 @@ const Login = () => {
 
     const emailRef = useRef()
     const passwordRef = useRef()
-    const [error, setError] = useState("")
-    const { login } = useAuth()
 
-    const handleLogin = (e) => {
+    const [error, setError] = useState("")
+    const { login: signin } = useAuth()
+
+    const handleLogin = async (e) => {
         e.preventDefault()
         const pwd = passwordRef.current.value
         const email = emailRef.current.value
@@ -18,11 +19,12 @@ const Login = () => {
         try {
             setError("")
             if (!validator.isEmail(email)) throw new Error("Enter Valid Email")
-            if (!validator.isLength(pwd, { min: 6, max: 20 })) throw new Error("Password should contain 6 to 20 characters")
-            login(email, pwd)
+            if (!validator.isLength(pwd, { min: 6, max: 20 })) throw new Error("Password should not be too short or too long")
+            const res = await signin(email, pwd)
+            if (res?.status === "error") throw new Error(res.message)
         }
         catch (err) {
-            setError(err?.message || "Error Occured")
+            setError(err?.message || "Login failed")
         }
     }
 

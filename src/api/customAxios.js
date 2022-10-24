@@ -1,11 +1,12 @@
 import axios from 'axios'
+const baseURL = process.env.REACT_APP_SERVER_URL
 
-const caxios = axios.create({
-    baseURL: 'http://localhost:8000',
+const basicAxios = axios.create({
+    baseURL: baseURL
 });
 
 const authAxios = axios.create({
-    baseURL: 'http://localhost:8000',
+    baseURL: baseURL
 })
 
 authAxios.interceptors.request.use(
@@ -14,8 +15,8 @@ authAxios.interceptors.request.use(
         return config;
     },
     error => {
-        throw new Error(error.message)
+        throw new Error(error?.message || "error occured while making request")
     }
 );
 
-export { caxios, authAxios }
+export { basicAxios, authAxios }

@@ -4,15 +4,16 @@ import validator from 'validator';
 import { useAuth } from '../context/AuthContext';
 
 const Signup = () => {
+
     const emailRef = useRef()
     const passwordRef = useRef()
     const cpasswordRef = useRef()
     const usernameRef = useRef()
-    const [error, setError] = useState("")
 
+    const [error, setError] = useState("")
     const { signup: register } = useAuth()
 
-    const handleSignup = (e) => {
+    const handleSignup = async (e) => {
         e.preventDefault();
         const pwd = passwordRef.current.value, cpwd = cpasswordRef.current.value
         const email = emailRef.current.value
@@ -21,12 +22,13 @@ const Signup = () => {
         try {
             setError("")
             if (!validator.isEmail(email)) throw new Error("Enter Valid Email")
-            if (!validator.isLength(username, { min: 5, max: 20 })) throw new Error("Username should contain 5 to 20 characters")
-            if (!validator.isLength(pwd, { min: 6, max: 20 })) throw new Error("Password should contain 6 to 20 characters")
+            if (!validator.isLength(username, { min: 5, max: 18 })) throw new Error("Username should not be too short or too long")
+            if (!validator.isLength(pwd, { min: 6, max: 20 })) throw new Error("Password should not be too short or too long")
             if (pwd !== cpwd) throw new Error("Password and Confirm Password should be same")
-            register(email, username, pwd)
+            const res = await register(email, username, pwd)
+            if (res?.status === "error") throw new Error(res.message)
         } catch (err) {
-            setError(err?.message || "Error Occured")
+            setError(err?.message || "Registration failed")
         }
     }
 
