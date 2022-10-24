@@ -69,6 +69,8 @@ npm start
 - useAuth is custom hooks that helps to easily use useContext hook.
 - signup,login,fetchdetails,logout all functions as well as user are passed as value of AuthProvider and import in other components as required.
 
+### [Backend Template](https://github.com/nik-55/auth-using-nodejs)
+
 ### Message
 
 ```
