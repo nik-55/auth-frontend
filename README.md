@@ -1,70 +1,81 @@
-# Getting Started with Create React App
+# [Auth-frontend using react](https://github.com/nik-55/auth-frontend)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> [Hello , Myself Nikhil Mahajan studying at iit roorkee.](https://github.com/nik-55)
 
-## Available Scripts
+Many time while developing we require to authorize users. Managing auth state can be trouble.  
+This repo is just a simple template creating following routes :
 
-In the project directory, you can run:
+```
+/
+/signup
+/login
+/profile
+```
 
-### `npm start`
+## Setup
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+After downloading the repo code open your editor and in the terminal :
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```
+npm install
+```
 
-### `npm test`
+This will install all dependencies required.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Environment Variable
 
-### `npm run build`
+Create a .env file in root folder and also add .env to .gitignore.  
+In .env :
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+REACT_APP_SERVER_URL
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Starting the React app
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Open terminal in root folder and run the following command to start the react app
 
-### `npm run eject`
+```
+npm start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Routes
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+`/signup`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- User can signup with email and password.
+- Validation checks for password and email is done before sending request to server.
+- After signup user will be navigated to login page
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+`/login`
 
-## Learn More
+- User can login with email and password.
+- Jwt token provided from server is store in local storage.
+- After login user will be navigated to profile page
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+`/profile`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Custom axios is used to attach token from local storage to headers while making request automatically.
+- It is private route that can be only accessed when user is logged in.
+- User can see his details like username here.
 
-### Code Splitting
+### State Management
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+`AuthContext`
 
-### Analyzing the Bundle Size
+- All the children is wrapped in AuthProvider.
+- It provides auth state to all its children.
+- Auth : true ==> user is logged in.
+- useAuth is custom hooks that helps to easily use useContext hook.
+- signup,login,fetchdetails,logout all functions as well as user are passed as value of AuthProvider and import in other components as required.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Message
 
-### Making a Progressive Web App
+```
+It will be nice if you report bugs or contribute to improve the code and security.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Thanks !!
+Happy Hacking...
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- nikhil
+```
