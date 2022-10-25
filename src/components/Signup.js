@@ -9,6 +9,7 @@ const Signup = () => {
     const passwordRef = useRef()
     const cpasswordRef = useRef()
     const usernameRef = useRef()
+    const btnRef = useRef()
 
     const [error, setError] = useState("")
 
@@ -16,6 +17,7 @@ const Signup = () => {
 
     const handleSignup = async (e) => {
         e.preventDefault();
+        btnRef.current.disabled = true
         const pwd = passwordRef.current.value, cpwd = cpasswordRef.current.value
         const email = emailRef.current.value
         const username = usernameRef.current.value
@@ -35,6 +37,7 @@ const Signup = () => {
             const err = error?.response?.data || error;
             setError(err?.message || "Registration failed")
         }
+        btnRef.current.disabled = false
     }
 
     return (
@@ -44,7 +47,7 @@ const Signup = () => {
                 <input className='block' ref={usernameRef} type={"text"} autoComplete="off" placeholder='username' />
                 <input className='block' ref={passwordRef} type={"password"} placeholder='password' />
                 <input className='block' ref={cpasswordRef} type={"password"} placeholder='Confirm password' />
-                <button className='block' type='submit'>Signup</button></form>
+                <button ref={btnRef} className='block' type='submit'>Signup</button></form>
             <small className='block'>Already have an account? <Link to={"/login"}>Login</Link></small>
             {error !== "" && <small className='error'>{error}</small>}
         </div>

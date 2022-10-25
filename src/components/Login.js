@@ -9,6 +9,7 @@ import { authConstant } from '../constants/authConstant';
 const Login = () => {
     const emailRef = useRef()
     const passwordRef = useRef()
+    const btnRef = useRef()
 
     const [error, setError] = useState("")
     const { dispatch } = useAuth()
@@ -19,6 +20,7 @@ const Login = () => {
         e.preventDefault()
         const pwd = passwordRef.current.value
         const email = emailRef.current.value
+        btnRef.current.disabled = true
         try {
             setError("")
             if (!validator.isEmail(email)) throw new Error("Enter Valid Email")
@@ -37,6 +39,7 @@ const Login = () => {
             const err = error?.response?.data || error;
             setError(err?.message || "Login failed")
         }
+        btnRef.current.disabled = false
     }
 
     return (
@@ -44,7 +47,7 @@ const Login = () => {
             <form onSubmit={handleLogin} noValidate={true} className="general-body">
                 <input className='block' ref={emailRef} type={"email"} autoComplete="off" placeholder='email' />
                 <input className='block' ref={passwordRef} type={"password"} placeholder='password' />
-                <button className='block' type='submit'>Login</button>
+                <button ref={btnRef} className='block' type='submit'>Login</button>
             </form>
             <small className='block'>Don't have an account? <Link to={"/signup"}>Signup</Link></small>
             {error !== "" && <small className='error'>{error}</small>}
