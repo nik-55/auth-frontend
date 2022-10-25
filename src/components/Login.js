@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import validator from 'validator';
 import { useNavigate } from 'react-router-dom';
 import { basicAxios } from '../api/customAxios';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 import { authConstant } from '../constants/authConstant';
 
 const Login = () => {
@@ -40,13 +40,15 @@ const Login = () => {
     }
 
     return (
-        <><form onSubmit={handleLogin} noValidate={true}>
-            <input className='block' ref={emailRef} type={"email"} autoComplete="off" placeholder='email' />
-            <input className='block' ref={passwordRef} type={"password"} placeholder='password' />
-            <button className='block' type='submit'>Login</button></form>
-            Don't have an account? <Link to={"/signup"}>Signup </Link>
-            <small className='error'>{error}</small>
-        </>
+        <div className="general-body bg">
+            <form onSubmit={handleLogin} noValidate={true} className="general-body">
+                <input className='block' ref={emailRef} type={"email"} autoComplete="off" placeholder='email' />
+                <input className='block' ref={passwordRef} type={"password"} placeholder='password' />
+                <button className='block' type='submit'>Login</button>
+            </form>
+            <small className='block'>Don't have an account? <Link to={"/signup"}>Signup</Link></small>
+            {error !== "" && <small className='error'>{error}</small>}
+        </div>
     )
 }
 

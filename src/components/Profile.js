@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../contexts/AuthContext'
 import { authAxios } from '../api/customAxios'
 import { useNavigate } from 'react-router-dom'
 import { authConstant } from '../constants/authConstant'
@@ -24,12 +24,12 @@ const Profile = () => {
     }
 
     return (
-        <>
+        <div className='general-body bg'>
             <span className='block'>{user.username}</span>
             <span className='block'>{user.email}</span>
-            <button onClick={handleLogout}>logout</button>
-            <small className='error'>{error}</small>
-        </>
+            <button className='block' onClick={handleLogout}>Logout</button>
+            {error !== "" && <small className='error'>{error}</small>}
+        </div>
     )
 }
 

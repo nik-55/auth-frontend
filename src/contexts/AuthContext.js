@@ -4,7 +4,6 @@ import { authReducer } from '../reducers/authReducer'
 import { authConstant } from "../constants/authConstant"
 
 const AuthContext = createContext()
-
 const useAuth = () => {
     return useContext(AuthContext)
 }
@@ -49,7 +48,7 @@ const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={value}>
-            {state.loading ? "Loading" : children}
+            {state.loading ? <span className='loading'>Loading</span> : children}
         </AuthContext.Provider>)
 }
 

@@ -38,16 +38,16 @@ const Signup = () => {
     }
 
     return (
-        <>
-            <form onSubmit={handleSignup} noValidate={true}>
+        <div className='general-body bg'>
+            <form onSubmit={handleSignup} noValidate={true} className='general-body'>
                 <input className='block' ref={emailRef} type={"email"} autoComplete="off" placeholder='email' />
                 <input className='block' ref={usernameRef} type={"text"} autoComplete="off" placeholder='username' />
                 <input className='block' ref={passwordRef} type={"password"} placeholder='password' />
                 <input className='block' ref={cpasswordRef} type={"password"} placeholder='Confirm password' />
                 <button className='block' type='submit'>Signup</button></form>
-            Already have an account?<Link to={"/login"}>Login</Link>
-            <small className='error'>{error}</small>
-        </>
+            <small className='block'>Already have an account? <Link to={"/login"}>Login</Link></small>
+            {error !== "" && <small className='error'>{error}</small>}
+        </div>
     )
 }
 
