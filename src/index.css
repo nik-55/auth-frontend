@@ -48,11 +48,41 @@ a {
 }
 
 .org-name a {
-  font-family: cursive;
+  font-family: Verdana, Tahoma, sans-serif;
   color: black !important;
 }
 
 .loading {
   font-stretch: extra-expanded;
   font-size: xx-large;
+}
+
+input {
+  padding: 4px;
+  border-radius: 6px;
+  width: 250px !important;
+}
+
+button:disabled {
+  background-color: rgb(101, 160, 255);
+  color: black;
+}
+
+.org-logo {
+  width: 50px;
+  border-radius: 50% !important;
+  border: 2px solid black;
+}
+
+.org-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: auto;
+}
+
+.org-logo-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

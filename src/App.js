@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
-import OrgName from './components/OrgName';
+import Org from './components/Org';
 import { AuthProvider } from './contexts/AuthContext';
 import BasicRoutes from './routes/BasicRoutes';
 
@@ -9,7 +9,7 @@ function App() {
     <>
       <Router>
         <AuthProvider>
-          <OrgName />
+          <Org />
           <BasicRoutes />
         </AuthProvider>
       </Router>
