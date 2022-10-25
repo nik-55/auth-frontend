@@ -1,20 +1,28 @@
 import React, { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
+import { authAxios } from '../api/customAxios'
+import { useNavigate } from 'react-router-dom'
+import { authConstant } from '../constants/authConstant'
 
 const Profile = () => {
-
-    const { user, logout } = useAuth()
     const [error, setError] = useState("")
+    const { user, dispatch } = useAuth()
+    const navigate = useNavigate()
 
     const handleLogout = async () => {
         try {
-            const res = await logout();
-            if (res?.status === "error") throw new Error(res.message)
+            await authAxios.get("/logout")
+            localStorage.setItem("jwt_token", "")
+            dispatch({ type: authConstant.AUTH, payload: { auth: false } })
+            dispatch({ type: authConstant.USER, payload: { user: null } })
+            navigate("/login", { replace: true })
         }
-        catch (err) {
+        catch (error) {
+            const err = error?.response?.data || error;
             setError(err?.message || "logout failed")
         }
     }
+
     return (
         <>
             <span className='block'>{user.username}</span>

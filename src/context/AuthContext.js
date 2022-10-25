@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { authAxios, basicAxios } from '../api/customAxios'
+import React, { createContext, useContext, useEffect, useReducer } from 'react'
+import { authAxios } from '../api/customAxios'
+import { authReducer } from '../reducers/authReducer'
+import { authConstant } from "../constants/authConstant"
 
 const AuthContext = createContext()
 
@@ -8,13 +9,14 @@ const useAuth = () => {
     return useContext(AuthContext)
 }
 
+const initialState = {
+    user: null,
+    auth: false,
+    loading: true
+}
+
 const AuthProvider = ({ children }) => {
-
-    const [auth, setAuth] = useState(false)
-    const [user, setUser] = useState()
-    const [loading, setLoading] = useState(true)
-
-    const navigate = useNavigate()
+    const [state, dispatch] = useReducer(authReducer, initialState)
 
     const fetchUserDetails = async () => {
         try {
@@ -22,15 +24,15 @@ const AuthProvider = ({ children }) => {
                 const response = await authAxios.get("/profile")
                 if (response.data?.message !== "session time out") {
                     const user = response.data.user
-                    setUser({ username: user.username, email: user.email })
-                    setAuth(true)
+                    dispatch({ type: authConstant.USER, payload: { user: user } })
+                    dispatch({ type: authConstant.AUTH, payload: { auth: true } })
                 }
                 else localStorage.setItem("jwt_token", "")
             }
         }
         catch (error) {
             const err = error?.response?.data || error;
-            setAuth(false)
+            dispatch({ type: authConstant.AUTH, payload: { auth: false } })
             return { status: "error", message: err?.message || "Error occur while fetching user details" }
         }
     }
@@ -38,63 +40,16 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const func = async () => {
             await fetchUserDetails();
-            setLoading(false)
+            dispatch({ type: authConstant.LOADING, payload: { loading: false } })
         }
-        func()
-    }, [])
+        if (state.loading) func()
+    }, [state.loading])
 
-    const login = async (email, pwd) => {
-        try {
-            const response = await basicAxios.post("/login", {
-                email,
-                password: pwd
-            })
-            const jwt_token = response.data.jwt_token
-            localStorage.setItem("jwt_token", jwt_token)
-            const result = await fetchUserDetails();
-            if (result?.status === "error") throw new Error(result.message)
-            navigate("/profile", { replace: true })
-        }
-        catch (error) {
-            const err = error?.response?.data || error;
-            return { status: "error", message: err?.message || "Login failed" }
-        }
-    }
-
-    const logout = async () => {
-        try {
-            await authAxios.get("/logout")
-            localStorage.setItem("jwt_token", "")
-            setAuth(false)
-            setUser({})
-            navigate("/login", { replace: true })
-        }
-        catch (error) {
-            const err = error?.response?.data || error;
-            return { status: "error", message: err?.message || "Failed logout" }
-        }
-    }
-
-    const signup = async (email, username, password) => {
-        try {
-            await basicAxios.post("/register", {
-                email,
-                username,
-                password
-            })
-            navigate("/login", { replace: true })
-        }
-        catch (error) {
-            const err = error?.response?.data || error;
-            return { status: "error", message: err?.message || "Sign up failed" }
-        }
-    }
-
-    const value = { auth, user, login, logout, signup, loading }
+    const value = { ...state, dispatch }
 
     return (
         <AuthContext.Provider value={value}>
-            {loading ? "Loading" : children}
+            {state.loading ? "Loading" : children}
         </AuthContext.Provider>)
 }
 
