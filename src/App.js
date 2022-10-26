@@ -8,8 +8,8 @@ function App() {
   return (
     <>
       <Router>
+        <Org />
         <AuthProvider>
-          <Org />
           <BasicRoutes />
         </AuthProvider>
       </Router>

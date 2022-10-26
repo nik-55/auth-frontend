@@ -63,11 +63,6 @@ input {
   width: 250px !important;
 }
 
-button:disabled {
-  background-color: rgb(101, 160, 255);
-  color: black;
-}
-
 .org-logo {
   width: 50px;
   border-radius: 50% !important;

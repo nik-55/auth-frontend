@@ -29,10 +29,8 @@ const AuthProvider = ({ children }) => {
                 else localStorage.setItem("jwt_token", "")
             }
         }
-        catch (error) {
-            const err = error?.response?.data || error;
+        catch {
             dispatch({ type: authConstant.AUTH, payload: { auth: false } })
-            return { status: "error", message: err?.message || "Error occur while fetching user details" }
         }
     }
 

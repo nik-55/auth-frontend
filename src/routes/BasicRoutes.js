@@ -2,10 +2,10 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
 
-import Home from '../components/Home';
-import Login from '../components/Login';
-import Profile from '../components/Profile';
-import Signup from '../components/Signup';
+import Home from '../pages/Home';
+import Login from '../pages/Login';
+import Profile from '../pages/Profile';
+import Signup from '../pages/Signup';
 
 const BasicRoutes = () => {
     return (
